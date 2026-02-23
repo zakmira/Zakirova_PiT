@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Практическая_работа_4_Закирова"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+         Closing="Window_Closing"
+        Title="MainWindow" Height="450" Width="800" Background="WhiteSmoke">
     <Grid>
-        
+        <TabControl x:Name="MainTabControl" Margin="10">
+            <TabItem Header="Страница 1" ToolTip="Первая формула">
+                <Frame x:Name="Page1" NavigationUIVisibility="Hidden"/>
+            </TabItem>
+            <TabItem Header="Страница 2" ToolTip="Вторая формула">
+                <Frame x:Name="Page2" NavigationUIVisibility="Hidden"/>
+            </TabItem>
+            <TabItem Header="Страница 3" ToolTip="Третья формула">
+                <Frame x:Name="Page3" NavigationUIVisibility="Hidden"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
