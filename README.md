@@ -4,3 +4,20 @@
 
 Тестировщик: Закирова Эльмира, 3ИСиП-423
 
+### 1. Создано консольное приложение Bank с классом BankAccount, содержащим методы Debit (списание средств) и Credit (зачисление средств).
+В коде добавлены XML-комментарии ко всем методам класса с использованием тегов:
+- *summary* — общее описание;
+- *param* — описание параметров;
+- *exception* — описание исключений;
+- *value* — описание свойств.
+
+### 2. Тестирование
+Добавлен проект модульных тестов **BankTests** со следующими тестовыми методами:
+- *Debit_WithValidAmount_UpdatesBalance* — проверка корректного списания;
+- *Debit_WhenAmountIsLessThanZero_ShouldThrowArgumentOutOfRange* — проверка исключения при отрицательной сумме;
+- *Debit_WhenAmountIsMoreThanBalance_ShouldThrowArgumentOutOfRange* — проверка исключения при превышении баланса;
+- *Credit_WithValidAmount_UpdatesBalance* — проверка корректного зачисления;
+- *Credit_WhenAmountIsLessThanZero_ShouldThrowArgumentOutOfRange* — проверка исключения при отрицательной сумме зачисления.
+
+При первом запуске теста выявлена ошибка в методе Debit: баланс увеличивался вместо уменьшения (m_balance += amount вместо m_balance -= amount). Ошибка исправлена, а также были добавлены константы для сообщений об ошибках и улучшена обработка исключений.
+
