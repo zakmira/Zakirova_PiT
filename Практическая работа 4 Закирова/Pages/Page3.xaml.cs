@@ -57,6 +57,30 @@ namespace Практическая_работа_4_Закирова.Pages
             }
         }
 
+        /// <summary>
+        /// Вычисляет третью функцию:
+        /// y = 0.0025bx³ + √(x + e^0.82)
+        /// </summary>
+        /// <param name="b">Параметр b</param>
+        /// <param name="x">Параметр x</param>
+        /// <returns>Результат вычисления функции y</returns>
+        /// <exception cref="ArgumentException">
+        /// Выбрасывается, если x + e^0.82 < 0 (вне области определения)
+        /// </exception>
+        public static double CalcFormula3(double b, double x)
+        {
+            double underRoot = x + Math.Exp(0.82);
+
+            if (underRoot < 0)
+            {
+                throw new ArgumentException(
+                    $"Значение x = {x:F2} вне области определения " +
+                    $"(x + e^0.82 = {underRoot:F4} < 0)");
+            }
+
+            return 0.0025 * b * Math.Pow(x, 3) + Math.Sqrt(underRoot);
+        }
+
         private void Calculate_Click(object sender, RoutedEventArgs e)
         {
             try

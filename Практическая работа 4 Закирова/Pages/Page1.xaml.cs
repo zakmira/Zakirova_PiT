@@ -25,6 +25,33 @@ namespace Практическая_работа_4_Закирова.Pages
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Метод для расчета первой функции
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <returns></returns>
+        public static double Calc(double x, double y, double z)
+        {
+            if (x == 0)
+            {
+                throw new ArgumentException("x не может быть равен 0! (деление на ноль)");
+            }
+
+            if (y == x)
+            {
+                throw new ArgumentException("y не может быть равен x! (деление на ноль)");
+            }
+
+            double term1 = Math.Abs(Math.Pow(x, y) - Math.Pow(y / x, 1.0 / 3.0));
+            double denominator = 1 + Math.Pow(y - x, 2);
+            double exponent = (Math.Cos(y) - z / (y - x)) / denominator;
+            double term2 = Math.Pow(Math.Abs(y - x), exponent);
+
+            return term1 + term2;
+        }
+
         private void Calculate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -41,24 +68,7 @@ namespace Практическая_работа_4_Закирова.Pages
                 double y = double.Parse(Y.Text.Replace(".", ","));
                 double z = double.Parse(Z.Text.Replace(".", ","));
 
-                if (x == 0)
-                {
-                    MessageBox.Show("X не может быть равен 0!");
-                    return;
-                }
-
-                if (y == x)
-                {
-                    MessageBox.Show("Y не можеть быть равен X (деление на ноль)!");
-                    return;
-                }
-
-                double term1 = Math.Abs(Math.Pow(x, y) - Math.Pow(y / x, 1.0 / 3.0));
-                double denominator = 1 + Math.Pow(y - x, 2);
-                double exponent = (Math.Cos(y) - z / (y - x)) / denominator;
-                double term2 = Math.Pow(Math.Abs(y - x), exponent);
-                
-                double result = term1 + term2;
+                double result = Calc(x, y, z);
                 Result.Text = result.ToString("F6");
             }
             catch (Exception ex)

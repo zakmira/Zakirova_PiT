@@ -25,16 +25,46 @@ namespace Практическая_работа_4_Закирова.Pages
             InitializeComponent();
         }
 
-        private double CalculateFx(double x)
+        /// <summary>
+        /// Вычисляет вторую функцию (кусочная):
+        /// l = 2f(x)³ + 3p², при x > |p|
+        /// l = |f(x) - p|, при 3 < x < |p|
+        /// l = (f(x) - p)², при x = |p|
+        /// </summary>
+        /// <param name="x">Параметр x</param>
+        /// <param name="p">Параметр p</param>
+        /// <param name="fx">Значение функции f(x)</param>
+        /// <returns>Результат вычисления функции l</returns>
+        /// <exception cref="ArgumentException">
+        /// Выбрасывается, если ни одно условие не выполняется
+        /// </exception>
+        public static double CalcFormula2(double x, double p, double fx)
         {
-            if (ShX.IsChecked == true)
-                return Math.Sinh(x); // гиперболический синус
-            else if (X2.IsChecked == true)
-                return x * x;
-            else 
-                return Math.Exp(x);
+            double absP = Math.Abs(p);
+
+            if (x > absP)
+            {
+                // Первая ветвь: l = 2f(x)³ + 3p²
+                return 2 * Math.Pow(fx, 3) + 3 * Math.Pow(p, 2);
+            }
+            else if (x > 3 && x < absP)
+            {
+                // Вторая ветвь: l = |f(x) - p|
+                return Math.Abs(fx - p);
+            }
+            else if (Math.Abs(x - absP) < 1e-10) // Сравнение с погрешностью
+            {
+                // Третья ветвь: l = (f(x) - p)²
+                return Math.Pow(fx - p, 2);
+            }
+            else
+            {
+                throw new ArgumentException(
+                    $"Для x={x} и |p|={absP} не определена ветвь функции");
+            }
         }
 
+       
         private void Calculate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -48,41 +78,27 @@ namespace Практическая_работа_4_Закирова.Pages
 
                 double x = double.Parse(X.Text.Replace(".", ","));
                 double p = double.Parse(P.Text.Replace(".", ","));
-                double fx = CalculateFx(x);
-                double absP = Math.Abs(p);
-                double result;
+                double fx;
+                if (ShX.IsChecked == true)
+                    fx = Math.Sinh(x);
+                else if (X2.IsChecked == true)
+                    fx = Math.Pow(x, 2);
+                else 
+                    fx = Math.Exp(x);
 
-                if (x > absP)
-                {
-                    // l = 2f(x)³ + 3p²
-                    result = 2 * Math.Pow(fx, 3) + 3 * Math.Pow(p, 2);
-                }
-                else if (x > 3 && x < absP)
-                {
-                    // l = |f(x) - p|
-                    result = Math.Abs(fx - p);
-                }
-                else if (x == absP)
-                {
-                    // l = (f(x) - p)²
-                    result = Math.Pow(fx - p, 2);
-                }
-                else
-                {
-                    MessageBox.Show("Для введенных значений не определена ветвь функции!\n" +
-                        $"Условия: x > |p| или 3 < x < |p| или x = |p|\n" +
-                        $"Ваши значения: x={x}, |p|={absP}");
-                    return;
-                }
+                double result = CalcFormula2(x, p, fx);
 
                 Result.Text = result.ToString("F6");
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 MessageBox.Show($"Ошибка вычисления: {ex.Message}");
             }
-        
-        }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }           
+        }   
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
