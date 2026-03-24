@@ -204,7 +204,7 @@ namespace UnitTestProject1
         }
 
         /// <summary>
-        /// Тест третьей функции с отрицательным b
+        /// Тест третьей функции при b < 0
         /// </summary>
         [TestMethod]
         public void CalculateFormula3_NegativeB_ReturnsResult()
@@ -222,7 +222,7 @@ namespace UnitTestProject1
         }
 
         /// <summary>
-        /// Тест проверки области определения третьей функции (вне допустимых значений)
+        /// Тест области определения третьей функции (вне допустимых значений)
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
