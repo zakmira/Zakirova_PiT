@@ -1,0 +1,102 @@
+﻿<Page x:Class="kinoshechka.Pages.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:kinoshechka.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="550" d:DesignWidth="1000" Background="AliceBlue"
+      Title="MainPage">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Button Content="Вход"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Padding="20,8"
+                    Click="Auth_Click"/>
+
+            <Button Content="Личная страница"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Padding="15,8"
+                    Click="Profile_Click"/>
+        </Grid>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10,0,10">
+            <TextBox x:Name="SearchBox" 
+                     Width="200" 
+                     Margin="0,0,10,0"
+                     TextChanged="SearchBox_TextChanged">
+                <TextBox.Text>
+                    <Binding Path="Text" UpdateSourceTrigger="PropertyChanged"/>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBlock Text="Сортировка:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+            <ComboBox x:Name="SortComboBox" 
+                      Width="200"
+                      SelectionChanged="SortComboBox_SelectionChanged">
+                <ComboBoxItem Content="По названию (А-Я)" Tag="название|true"/>
+                <ComboBoxItem Content="По возрастанию в рейтинге" Tag="рейтинг|true"/>
+                <ComboBoxItem Content="По убыванию в рейтинге" Tag="рейтинг|false"/>
+            </ComboBox>
+        </StackPanel>
+
+        <ItemsControl x:Name="FilmsItems" Grid.Row="2">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Width="220" Margin="10" Padding="10"
+                            BorderBrush="Gray" BorderThickness="1"
+                            Background="White"
+                            CornerRadius="5">
+                        <StackPanel>
+                            <Image Height="140" Stretch="UniformToFill" Margin="0,0,0,10">
+                                <Image.Source>
+                                    <BitmapImage UriSource="{Binding CoverImage}"/>
+                                </Image.Source>
+                            </Image>
+
+                            <TextBlock Text="{Binding Title}" 
+                                       FontWeight="Bold"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,5"/>
+
+                            <TextBlock Margin="0,0,0,2">
+                                <Run Text="Рейтинг: "/>
+                                <Run Text="{Binding Rating, StringFormat=F1}"/>
+                            </TextBlock>
+
+                            <TextBlock Margin="0,0,0,2">
+                                <Run Text="Премьера: "/>
+                                <Run Text="{Binding ReleaseDate, StringFormat=dd.MM.yyyy}"/>
+                            </TextBlock>
+
+                            <TextBlock Margin="0,0,0,8">
+                                <Run Text="{Binding AgeRating}"/>
+                            </TextBlock>
+
+                            <Button Content="Открыть"
+                                    Padding="1,1"
+                                    Click="OpenFilm_Click"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</Page>
